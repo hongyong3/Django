@@ -2,19 +2,19 @@
 
 **Content**
 
-[0. 준비 사항](#준비-사항)
+[0. 준비 사항](#0-준비-사항)
 
-[1. Django start](#django-start)
+[1. Django start](#1-django-start)
 
-[2. MTV](#mtv)
+[2. MTV](#2-mtv)
 
-[3. views-urls](#views-urls)
+[3. views-urls](#3-views-urls)
 
-[4. Template](#template)
+[4. Template](#4-template)
 
-[5. Form](#form)
+[5. Form](#5-form)
 
-[6. Template Inheritance](#template-inheritance)
+[6. Template Inheritance](#6-template-inheritance)
 
 > 190213 Wed
 >
