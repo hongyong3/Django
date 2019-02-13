@@ -1,6 +1,20 @@
 ## Django_01
 
-[TOC]
+**Content**
+
+[0. 준비 사항](#준비-사항)
+
+[1. Django start](#django-start)
+
+[2. MTV](#mtv)
+
+[3. views-urls](#views-urls)
+
+[4. Template](#template)
+
+[5. Form](#form)
+
+[6. Template Inheritance](#template-inheritance)
 
 > 190213 Wed
 >
@@ -190,7 +204,7 @@ PROJECT01/
 
 ---
 
-### 2. MTV (MVC) 패턴
+### 2. MTV
 
 - 장고를 제외하면 일반적으로 MVC 패턴으로 사용된다.
   - **M**odel : 어플리케이션의 핵심 로직의 동작을 수행한다. (Database)
@@ -207,7 +221,7 @@ PROJECT01/
 
 ---
 
-### 3. views - urls
+### 3. views-urls
 
 > 우리는 앞으로 
 >
