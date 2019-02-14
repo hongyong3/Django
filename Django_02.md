@@ -2,9 +2,9 @@
 
 **Content**
 
-0. [DTL](#0-dtl-(django-template-language))
-1. [정적(static) 파일 관리](#1-정적(static)-파일-관리)
-2. [URL 설정 분리](#2-url-설정-분리-(multiple-apps))
+0. [DTL](#0-dtl)
+1. [static 파일 관리](#1-static-파일-관리)
+2. [URL 설정 분리](#2-url-설정-분리)
 3. [Template name spacing](#3-template-name-spacing)
 4. [Template inheritance](#4-template-inheritance)
 5. [디렉토리 구조](#5-디렉토리-구조)
