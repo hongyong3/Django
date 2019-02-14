@@ -1,5 +1,7 @@
 ## Django_02
 
+[TOC]
+
 **Content**
 
 0. [DTL](#0-dtl)
@@ -32,8 +34,10 @@
 >  	return render(request, 'index.html')
 > ```
 
-### 0. DTL (Django Template Language)
+### 0. DTL
 
+> Django Template Language
+>
 > [DTL](https://docs.djangoproject.com/en/2.1/ref/templates/language/)
 >
 > [공식문서 built-in](https://docs.djangoproject.com/en/2.1/ref/templates/builtins/)
@@ -209,7 +213,7 @@
 👨‍💻-"07_DTL Practice"
 
 ---
-### 1. 정적(static) 파일 관리
+### 1. static 파일 관리
 
 > **진행 중 적용이 안된다면 서버를 재시작 해보자.**
 >
@@ -299,7 +303,7 @@
 ---
 
 
-### 2. URL 설정 분리 (multiple apps)
+### 2. URL 설정 분리
 
 1. 두번째 app을 만들어봅시다. 
 
