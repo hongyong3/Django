@@ -625,7 +625,7 @@ def create(request):
 
 ---
 
-### 6. Django Admin
+### 6. Django Admin [[top]](#content)
 
 - 사이트 방문자를 위한 것이 아닌, 사이트 관리자를 위한 페이지.
 - Board 테이블을 `admin.py` 에 등록하고, 생성된 record 들을 관리 할 수 있는 기능 제공한다.
