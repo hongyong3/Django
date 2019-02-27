@@ -368,7 +368,7 @@
 
 ### 3. Template name spacing
 
-1. utilieties 기본 세팅 하기
+1. utilities 기본 세팅 하기
 
    > ```python
    > # settings

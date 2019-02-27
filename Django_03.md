@@ -115,7 +115,7 @@ class Board(models.Model):
 > 2. `TextField(**options)`
 >
 > - A large size text field.
-> - max_length 옵션을 주면 자동양식필드의 textarea 위젭에 반영은 되지만 모델과 데이터베이스 수준에는 적용되지 않는다. (그럴 땐 CharField 를 사용한다.) 
+> - max_length 옵션을 주면 자동양식필드의 textarea 위젯에 반영은 되지만 모델과 데이터베이스 수준에는 적용되지 않는다. (그럴 땐 CharField 를 사용한다.) 
 >
 > 3. `DateTimeField(auto_now=False, auto_now_add=False, **options)`
 >
