@@ -477,7 +477,8 @@ urlpatterns = [
         <label for="content">Content</label>
         <textarea name="content" id="content"></textarea>
         <input type="submit" value="Submit"/>
-    </form>
+    </form
+    <a href="/boards/">BACK</a>
 {% endblock %}
 ```
 
@@ -643,8 +644,8 @@ Username: admin
 
 Email address: admin@gmail.com
 
-Password: **********
-Password (again): *********
+Password: (보안상 입력해도 아무것도 출력되지 않음)
+Password (again): 
 
 Superuser created successfully.
 ```
