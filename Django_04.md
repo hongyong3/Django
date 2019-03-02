@@ -31,7 +31,7 @@ urlpatterns = [
 {% extends 'boards/base.html' %}
 {% block body %}
     <h1>Detail</h1>
-    <h1>{{ board.id }} 글</h1>
+    <h2>{{ board.id }} 번째 글</h2>
     <hr>
     <h2>{{ board.title }}</h2>
     <p>{{ board.content }}</p>
@@ -71,7 +71,7 @@ def create(request):
     content = request.POST.get('content')
     board = Board(title=title, content=content)
     board.save()
-    return redirect(f'/boards/{ board.pk }/')
+    return redirect(f'/boards/{board.pk}/')
 
 def delete(request, pk):
     board = Board.objects.get(pk=pk)
@@ -159,6 +159,7 @@ urlpatterns = [
         <textarea name="content" id="content">{{ board.content }}</textarea>
         <input type="submit" value="Submit"/>
     </form>
+    <a href="/boards/">BACK</a>
 {% endblock %}
 ```
 
