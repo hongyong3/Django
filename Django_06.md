@@ -197,11 +197,11 @@ path('<int:board_pk>/comments/', views.comments_create, name='comments_create'),
 	...
     <hr>
 	<p>댓글 작성</p>
-    <form action="{% url 'boards:comments_create' board.pk %}" method="POST">
+	<form action="{% url 'boards:comments_create' board.pk %}" method="POST">
         {% csrf_token %}
         comment: <input type="text" name="content">
         <input type="submit" value="submit">
-    </form>
+	</form>
 {% endblock %}
 ```
 
@@ -265,7 +265,7 @@ def comments_delete(request, board_pk, comment_pk):
     if request.method == 'POST':
     	comment.delete()
     	return redirect('boards:detail', board_pk)
-   	else:
+    else:
         return redirect('boards:detail', board_pk)
 ```
 
@@ -280,7 +280,8 @@ path('<int:board_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, 
 {% for comment in comments %}
 	<li>
         {{ comment.content }}
-        <a href="{% url 'boards:comments_delete' board.pk comment.pk %}">[삭제]</a>			</li>
+        <a href="{% url 'boards:comments_delete' board.pk comment.pk %}">[삭제]</a>
+	</li>
 {% endfor %}
 ```
 
@@ -290,10 +291,10 @@ path('<int:board_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, 
 {% for comment in comments %}
 	<li>
         {{ comment.content }}
-    	<form action="{% url 'boards:comments_delete' board.pk comment.pk %}" method="POST" onsubmit="return confirm('R U SURE?');" style="display: inline">
-        	{% csrf_token %}
-        	<input type="submit" value="삭제">
-    	</form>
+		<form action="{% url 'boards:comments_delete' board.pk comment.pk %}" method="POST" onsubmit="return confirm('R U SURE?');" style="display: inline">
+            {% csrf_token %}
+            <input type="submit" value="삭제">
+        </form>
 	</li>
 {% endfor %}
 ```
@@ -318,11 +319,11 @@ path('<int:board_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, 
 <!-- boards/detail.html -->
 	...
 	<p>댓글 작성 / {{ comments | length }} 개의 댓글</p>
-    <form action="{% url 'boards:comments_create' board.pk %}" method="POST">
+	<form action="{% url 'boards:comments_create' board.pk %}" method="POST">
         {% csrf_token %}
         comment: <input type="text" name="content">
         <input type="submit" value="submit">
-    </form>
+	</form>
 {% endblock %}
 ```
 
@@ -333,7 +334,7 @@ path('<int:board_pk>/comments/<int:comment_pk>/delete/', views.comments_delete, 
 ```html
 {% for comment in comments %}
 	<li>
-    	{{ comment.content }}
+        {{ comment.content }}
         <form action="{% url 'boards:comments_delete' board.pk comment.pk %}" method="POST" onsubmit="return confirm('R U SURE?');" style="display: inline">
             {% csrf_token %} 
             <input type="submit" value="삭제">
