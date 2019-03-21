@@ -1,0 +1,11 @@
+{% extends 'eithers/base.html' %}
+{% block body %}
+    {% for question in questions %}
+        <div class="jumbotron d-flex justify-content-center mt-3">
+            <h1 class="display-4 text-center">{{ question.title }}</h1>
+            <a class="btn btn-info btn-lg ml-auto my-auto" href="{% url 'eithers:detail' question.pk %}" role="button">
+                <span class="badge badge-light">{{ question.answer_set.all | length }}</span> 개의 의견 보기
+            </a>
+        </div>
+    {% endfor %}
+{% endblock  %}
