@@ -1,0 +1,25 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+    <h1>영화 정보 수정</h1>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="title" value="{{movie.title}}"></p>
+        <p><input type="number" name="audience" value="{{movie.audience}}"></p>
+        <p><textarea name="poster_url" cols="30" rows="10">{{movie.poster_url}}</textarea></p>
+        <p><textarea name="description" cols="30" rows="10">{{movie.description}}</textarea></p>
+        <p>
+            <select name="genre">
+                {% for genre in genres %}
+                    {% if genre.pk == movie.genre.pk %}
+                        <option value="{{genre.pk}}" selected>{{genre.name}}</option>
+                    {% else %}
+                        <option value="{{genre.pk}}">{{genre.name}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </p>
+        <input type="submit" value="수정">
+    </form>
+    <a href="{% url 'movies:detail' movie.pk %}">[뒤로]</a>
+{% endblock  %}

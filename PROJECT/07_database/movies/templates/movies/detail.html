@@ -1,0 +1,46 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+    <h1>영화 정보 조회</h1>
+    <hr>
+    <h2>{{ movie.title }}</h2>
+    <h3>관객수 : {{ movie.audience }}</h3>
+    <h4>종합 평점 : {{ movie.score_avg }}</h4>
+    <p><img src="{{ movie.poster_url }}" alt="poster"></p>
+    <p>{{ movie.description }}</p>
+    <p>{{ genre }}</p>
+    {% comment %} <p>{{ movie.genre }}</p> {% endcomment %}
+    {% comment %} <p>{{ genre.name }}</p> {% endcomment %}
+    <a href="{% url 'movies:index' %}">[목록]</a>
+    <a href="{% url 'movies:edit' movie.pk %}">[수정]</a>
+    <form action="{% url 'movies:delete' movie.pk %}" method="POST" onsubmit="return confirm('R U SURE??');" style="display: inline">
+        {% csrf_token %}
+        <input type="submit" value="삭제">
+    </form>
+
+    <hr>
+
+    <p>관객 평점 / {{ scores | length }} 개의 평점이 있습니다.</p>
+    {% for score in scores %}
+        <li>
+            한줄평 : {{ score.content }} / {{ score.score }} 점
+            <form action="{% url 'movies:scores_delete' movie.pk score.pk %}" method="post" onsubmit="return confirm('R U SURE??');" style="display: inline">
+                {% csrf_token %}
+                <input type="submit" value="삭제">
+            </form>
+        </li>
+    {% empty %}
+        <p><b>평점이 없습니다 ..</b></p>
+    {% endfor %}
+
+    <hr>
+
+    <p>평점 등록</p>
+    <form action="{% url 'movies:scores_create' movie.pk %}" method="POST">
+        {% csrf_token %}
+        <label for="score">평점</label>
+        <input type="number" name="score" id="score" min="0" max="5" step="1">
+        <label for="content">한줄평</label>
+        <input type="text" name="content" id="content">
+        <input type="submit" value="등록">
+    </form>
+{% endblock  %}
