@@ -1,0 +1,15 @@
+{% extends 'movies/base.html' %}
+{% block body %}
+<h1>영화목록</h1>
+<a href="{% url 'movies:create' %}">[NEW]</a>
+{% for movie in movies %}
+    <p><a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a></p>
+    {% if movie.score_avg or movie.score_avg == 0 %}
+        <p>종합 {{ movie.score_avg|floatformat:1 }} 점</p>
+    {% else %}
+        <p>아직 평가 없음</p>
+    {% endif %}
+    <img src="{{ movie.poster_url }}" alt="{{ movie.title }}">
+    <hr>
+{% endfor %}
+{% endblock  %}
