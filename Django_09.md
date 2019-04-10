@@ -24,7 +24,7 @@
 
 > [Using the Django authentication system](https://docs.djangoproject.com/en/2.1/topics/auth/default/#using-the-django-authentication-system)
 
-- 이전 ModelForm 수업에 이어서 진행
+- 이전 ModelForm 수업에 이어서 진행한다.
 - django 에는 기본적으로 로그인 기능이 구현되어 있다.
   - createsuperuser 로 계정을 만들고, admin 페이지에서 로그인을 할 수 있었던 이유.
 - 기능 자체는 구현이 되어 있으므로 우리는 로그인 페이지만 만들면 된다.
@@ -115,7 +115,7 @@ path('signup/', views.signup, name='signup')
 - 새로운 user 를 만들었으니, 만든 user 정보로 로그인을 해보자.
 - 로그인도 Create 로직과 같지만 Session 을 Create 하는 것이다.
   - Session 이란 브라우저의 정보를 가져와 임시로 들고 있도록해서, 지금 이 페이지를 보는게 누구인지 구분하도록 서버 쪽에서 정보를 들고 있는 것을 의미한다. (간단 설명)
-  - 그래서 이 session 은 사용자가 로그인 하면, 로그인한 사용자의 정보를 페이지가 전환되더라도 계속 들고 있는다. (로그아웃 버튼을 누르거나, sesstion 만료시간이 지날 때 까지 들고 있는다.
+  - 그래서 이 session 은 사용자가 로그인 하면, 로그인한 사용자의 정보를 페이지가 전환되더라도 계속 들고 있는다. (로그아웃 버튼을 누르거나, sesstion 만료시간이 지날 때 까지 들고 있는다.)
 - Session 은 잠시 뒤로 넘기고 우리는 django 가 세션 관리를 알아서 모두 해준다는 것을 알고 가자.
 - User 를 만드는 ModelForm 은 `AuthenticationForm` 을 사용한다.
   - `auto_login` 은 session 에 user 정보를 기록해서 계속 들고 있도록 한다. 즉, 로그인을 한다.
@@ -317,6 +317,8 @@ def login(request):
 > [User model Fields](https://docs.djangoproject.com/ko/2.2/ref/contrib/auth/#user-model)
 >
 > [Custom UserChangeForm](<https://stackoverflow.com/questions/5521273/how-do-i-create-a-custom-userchangeform-that-does-not-allow-certain-fields-to-be>)
+>
+> [User 모델 참조하기 - User 모델을 직접 참조하지 말고 get_user_model() 을 사용해야 하는 이유](https://docs.djangoproject.com/ko/2.1/topics/auth/customizing/#referencing-the-user-model)
 
 - 회원 정보를 수정하는 ModelForm 은 `UserChangeForm` 을 사용한다.
 
@@ -375,11 +377,11 @@ def login(request):
   ```python
   # accounts/forms.py
   from django.contrib.auth.forms import UserChangeForm 
-  from django.contrib.auth.models import User
+  from django.contrib.auth import get_user_model
   
   class UserCustomChangeForm(UserChangeForm):
       class Meta:
-          model = User
+          model = get_user_model()
           fields = ('email', 'first_name', 'last_name',)
   ```
 
@@ -769,4 +771,4 @@ $ python manage.py migrate
       else:
           return redirect('boards:index')									# 2
   ```
-
+  
