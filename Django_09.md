@@ -16,7 +16,7 @@
 9. auth_form 합치기
 10. User - Board
 
-> 190408~09 Mon~Tue
+> 190408 & 09 Mon~Tue
 
 ---
 
@@ -261,12 +261,14 @@ def signup(request):
 - 로그인 되어있는 상태라면 로그인과 회원가입 페이지에 접근 할 수 없도록 설정한다.
 
 ```python
+# accounts/views.py
 def signup(request):
     if request.user.is_authenticated:
         return redirect('boards:index')
 ```
 
 ```python
+# accounts/views.py
 def login(request):
     if request.user.is_authenticated:
         return redirect('boards:index')
@@ -319,6 +321,7 @@ def login(request):
 - 회원 정보를 수정하는 ModelForm 은 `UserChangeForm` 을 사용한다.
 
   ```python
+  # accounts/views.py
   from django.contrib.auth.forms import UserChangeForm
   
   def edit(request):
@@ -644,7 +647,6 @@ def login(request):
 # boards/models.py
 from django.conf import settings
 
-# Create your models here.
 class Board(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 ```
@@ -767,5 +769,4 @@ $ python manage.py migrate
       else:
           return redirect('boards:index')									# 2
   ```
-
 
