@@ -65,9 +65,19 @@
 
 ### 1. Django Login Email 필드 추가
 
-1. `UserCreationForm` 변형 (기존 구조에 단순히 email 필드를 추가)
+1. 회원가입에서 사용했던 `UserCreationForm` 을 커스텀 해야한다. (기존 구조에 단순히 email 필드를 추가)
 
-    이메일을 추가해야하니 기존 것에서 확장해야한다.
+    이메일을 추가해야하니 기존 것에서 확장을 한다.
+
+    > [UserCreationForm](https://docs.djangoproject.com/ko/2.1/topics/auth/default/#django.contrib.auth.forms.UserCreationForm)
+    >
+    > [Source code for django.contrib.auth.forms](https://docs.djangoproject.com/en/1.8/_modules/django/contrib/auth/forms/)
+    >
+    > UserCreationForm() 은 기본적으로 password1, password2 필드를 가지고 있고 user model 을 통해 username 까지 3개의 필드를 가지고 있다.
+    >
+    > 우리가 만드는 UserCustomCreationForm 은 UserCreationForm 을 상속받기 때문에 fields에 password1 과 password2 를 명시하지 않아도 출력된다.
+    >
+    > 대신 user model 의 username 과 email 필드를 명시해야 한다.
 
     ```python
     # accounts/forms.py
@@ -77,7 +87,8 @@
     class UserCustomCreationForm(UserCreationForm):
         class Meta:
             model = get_user_model()
-            fields = ['username', 'password1', 'password2', 'email',]
+            fields = ['username', 'email',]
+            # fields = ['username', 'password1', 'password2', 'email',]
     ```
 
 2. 회원가입 view 수정
@@ -127,7 +138,7 @@
         if request.user.is_authenticated:
             gravatar_url = hashlib.md5(request.user.email.strip().lower().encode('utf-8')).hexdigest()
         else:
-            gravatar_url = None # 변수 선언은 해야하니까 None. 어차피 로그인 분기되어있어서 상관없음.
+            gravatar_url = None # 변수 선언은 해야하니까 None 값을 할당.
         boards = get_list_or_404(Board.objects.order_by('-pk'))
         context = {
           'boards': boards, 
