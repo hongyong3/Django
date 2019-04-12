@@ -69,8 +69,8 @@ USE_TZ = False
 from django.urls import path, include
 
 urlpatterns = [
-  path('posts/', include('posts.urls')),
-  path('admin/', admin.site.urls),
+    path('posts/', include('posts.urls')),
+    path('admin/', admin.site.urls),
 ]
   ```
 
@@ -511,7 +511,7 @@ $ python manage.py migrate
   ```django
   <!-- posts/_nav.html -->
   <li class="nav-item">
-    	<a href="{% url 'posts:create' %}" class="nav-link">New</a>
+    <a href="{% url 'posts:create' %}" class="nav-link">New</a>
   </li>
   ```
 
@@ -851,40 +851,4 @@ insta_project
 │   ├── urls.py
 │   └── views.py
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
