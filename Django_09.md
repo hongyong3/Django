@@ -283,9 +283,8 @@ def login(request):
   ```python
   # accounts/views.py
   def delete(request):
-      user = request.user
       if request.method == 'POST':
-          user.delete()
+          request.user.delete()
       return redirect('boards:index')
   ```
 
@@ -429,7 +428,7 @@ def login(request):
       if request.method == 'POST':
           form = PasswordChangeForm(request.user, request.POST) # 인자 순서 유의
           if form.is_valid():
-              user = form.save()
+              form.save()
               return redirect('boards:index')
       else:
           form = PasswordChangeForm(request.user)	# PasswordChangeForm 는 instance 사용 안함
@@ -472,13 +471,13 @@ from django.contrib.auth import update_session_auth_hash
 
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST) # 인자 순서 유의
+        form = PasswordChangeForm(request.user, request.POST) 
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)
+            update_session_auth_hash(request, user)		# 해당 코드 추가
             return redirect('boards:index')
     else:
-        form = PasswordChangeForm(request.user)	# PasswordChangeForm 는 instance 사용 안함
+        form = PasswordChangeForm(request.user)	
     context = {'form': form}
     return render(request, 'accounts/change_password.html', context)
 ```
@@ -771,4 +770,6 @@ $ python manage.py migrate
       else:
           return redirect('boards:index')									# 2
   ```
-  
+
+---
+
