@@ -646,12 +646,20 @@ $ python manage.py migrate
 
 #### 5.2 ModelForm
 
-- ImageForm 에서 여러 장 업로드를 위해 widgets 에 `multiple` 옵션을 설정한다.
+- ImageForm 에서 여러 장 업로드를 위해 widgets 에 `multiple` 옵션을 설정한다. (1번 양식을 더 권장)
 
   ```python
   # posts/forms.py
   from .models import Post, Image
   
+  # 1
+  class ImageForm(forms.ModelForm):
+      file = forms.ImageField(widget=forms.FileInput(attrs={'multiple': True,}))
+      class Meta:
+          model = Image
+          fields = ['file',]
+  
+  # 2
   class ImageForm(forms.ModelForm):
       class Meta:
           model = Image
@@ -721,6 +729,7 @@ $ python manage.py migrate
           <img src="#" alt="no_image">
       {% endif %}
       <div class="card-body">
+        ...
   ```
 
 - 인스타는 기존 게시글 이미지를 수정하지 못하므로 update 로직은 그대로 유지하지만 수정 페이지에서는 image form 이 보이지 않도록 분기한다.
@@ -806,49 +815,4 @@ $ python manage.py migrate
 ```
 
 ---
-
-```
-insta_project
-├── db.sqlite3
-├── insta
-│   ├── settings.py
-│   ├── templates
-│   │   └── base.html
-│   ├── urls.py
-│   └── wsgi.py
-├── manage.py
-├── media
-│   ├── IMG_4228.JPG
-│   └── posts
-│       └── images
-│           ├── IMG_4228.JPG
-│           ├── sample_img.jpg
-│           ├── sample_img_JxYansA.jpg
-│           ├── sample_img_KyFo2ol.jpg
-│           ├── ssafy-1210-01.jpg
-│           ├── ssafy-1210-01_PGBQHo9.jpg
-│           └── ssafy-1210-01_zKUhFgW.jpg
-├── posts
-│   ├── admin.py
-│   ├── apps.py
-│   ├── forms.py
-│   ├── migrations
-│   │   ├── 0001_initial.py
-│   │   ├── 0002_post_image.py
-│   │   ├── 0003_auto_20190412_1436.py
-│   │   ├── 0004_auto_20190412_1441.py
-│   ├── models.py
-│   ├── static
-│   │   └── posts
-│   │       └── instagram.png
-│   ├── templates
-│   │   └── posts
-│   │       ├── _nav.html
-│   │       ├── _post.html
-│   │       ├── form.html
-│   │       └── list.html
-│   ├── tests.py
-│   ├── urls.py
-│   └── views.py
-```
 
