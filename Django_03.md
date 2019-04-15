@@ -1,19 +1,6 @@
+[TOC]
+
 ## Django_03
-
-**Content**
-
-0. [crud start](#0-crud-start)
-1. [Model](#1-model)
-2. [DB API](#2-db-api)
-3. [CREATE](#3-create)
-4. [READ](#4-read)
-5. [POST](#5-post)
-6. [Django Admin](#6-django-admin)
-7. [Django Extensions](#7-django-extensions)
-
-> 190220 Wed
-
----
 
 ### 0. crud start
 
@@ -56,7 +43,7 @@ INSTALLED_APPS = [
 
 Django 는 기본적으로 SQLite 를 사용하도록 구성되어있다. (별도 설치 필요 X)
 
-다른 데이터베이스를 사용하려면 [데이터베이스 연결](https://docs.djangoproject.com/ko/2.1/topics/install/#database-installation) 을 설치하고 그에 맞게끔 settings.py 를 다음과 같이 수정해야 한다.
+다른 데이터베이스를 사용하려면 [데이터베이스 연결](#) 을 설치하고 그에 맞게끔 settings.py 를 다음과 같이 수정해야 한다.
 
 - settings.py
 
@@ -74,7 +61,7 @@ DATABASES = {
 
 > 데이터베이스로 sqlite 를 사용하지 않는 경우 USER, HOST, PASSWORD 같은 추가 설정이 반드시 필요하다.
 >
-> [DATABASES](https://docs.djangoproject.com/ko/2.1/ref/settings/#std:setting-DATABASES)
+> [DATABASES](#)
 
 - `INSTALLED_APPS`
 
@@ -91,7 +78,7 @@ DATABASES = {
 
 #### 1.1 Model 만들기
 
-> **모델**이란 부가적인 메타데이터를 가진 데이터베이스의 구조(layout)을 말한다.
+> **[모델](#)**이란 부가적인 메타데이터를 가진 데이터베이스의 구조(layout)을 말한다.
 >
 > 사용자가 저장하는 데이터의 필수적인 필드들과 동작들을 포함하고 있다.
 
@@ -99,7 +86,7 @@ DATABASES = {
 
 ```python
 class Board(models.Model):
-    # id primary key 는 기본적으로 처음 테이블 생성시 자동으로 만들어진다.
+    # id 프라이머리 키는 기본적으로 처음 테이블 생성시 자동으로 만들어진다.
     # id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=10)
     content = models.TextField()
@@ -111,11 +98,13 @@ class Board(models.Model):
 > - **CharField 의`max_length` 는 필수 인자이다.**
 >   - 필드의 최대 길이(문자 수)이며 데이터베이스 레벨과 Django 의 유효성 검사(값 검증)에서 사용된다.
 > - 문자열 필드이며 작은사이즈부터 큰사이즈까지 사용된다. (많은 양의 텍스트에 경우는 TextField 를 사용)
+> - 기본 양식 위젯은 TextInput 
 >
 > 2. `TextField(**options)`
 >
 > - A large size text field.
-> - max_length 옵션을 주면 자동양식필드의 textarea 위젯에 반영은 되지만 모델과 데이터베이스 수준에는 적용되지 않는다. (그럴 땐 CharField 를 사용한다.) 
+> - max_length 옵션을 주면 자동양식필드의 textarea 위젭에 반영은 되지만 모델과 데이터베이스 수준에는 적용되지 않는다. (그럴 땐 CharField 를 사용한다.) 
+> - 기본 양식 위젯은 Textarea
 >
 > 3. `DateTimeField(auto_now=False, auto_now_add=False, **options)`
 >
@@ -125,6 +114,7 @@ class Board(models.Model):
 > - 수정일자 : `auto_now=True` 
 >   - django model 이 save 될 때마다 현재날짜(date.today()) 로 갱신
 >
+> https://tomining.tistory.com/145
 > https://docs.djangoproject.com/en/2.1/ref/models/fields/#datefield
 
 - DB 컬럼과 어떤한 타입으로 정의할 것인지에 대에 `django.db.models` 를  활용해서 Board 클래스를 만든다.
@@ -173,7 +163,7 @@ $ python manage.py makemigrations boards
 > COMMIT;
 > ```
 >
-> - app 이름과 migration 버전(0001, 0002, ..) 으로 명령어를 입력하면, **실제 데이터베이스에 적용되는 sql 쿼리문**을 확인 할 수 있다.
+> - app 이름과 migration 버전(0001, 0002, ..) 으로 명령어를 입력하면, 실제 데이터베이스에 적용되는 sql 쿼리를 확인 할 수 있다.
 > - sqlmigrate 는 실제 데이터베이스를 migration 하지 않는다. (단순 결과 출력)
 > - 테이블의 이름은 app 의 이름과 model 의 이름이 조합되어 자동으로 생성된다. (소문자)
 > - PRIMARY KEY 는 자동으로 추가된다.
@@ -244,7 +234,7 @@ auth_user_user_permissions
 
 ---
 
-### 2. DB API
+### 2. DB API 조작
 
 - django shell
 
@@ -337,7 +327,7 @@ Board.objects.all()
 boards = Board.objects.all()
 
 # SELECT * FROM boards WHERE title='hello';
-boards = Board.objects.filter(title='hello').all()
+boards = Board.objects.filter(title='hello')
 # SELECT * FROM boards WHERE title='hello' LIMIT 1;
 board = Board.objects.filter(title='hello').first()
 
@@ -356,9 +346,9 @@ board = Board.objects.get(pk=1)
 board = Board.objects.filter(id=1)
 
 
-# 장고 ORM 은 이름(title)과 필터(contains)를 더블언더스코어로 구분합니다.
+# 장고 ORM 은 이름(title) 과 필터(contains) 를 더블언더스코어로 구분합니다.
 # LIKE
-boards = Board.objects.filter(title__contains='he').all()
+boards = Board.objects.filter(title__contains='he')
 
 # startwith
 boards = Board.objects.filter(title__startswith='he')
@@ -444,7 +434,7 @@ urlpatterns = [
 {% extends 'boards/base.html' %}
 {% block body %}
     <h1>Board</h1>
-    <a href="/boards/new">글 작성하기</a>
+    <a href="/boards/new/">글 작성하기</a>
 	<hr>
 {% endblock %}
 ```
@@ -463,11 +453,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
- path('new/', views.new, name='new'),
+ 	path('new/', views.new, name='new'),
 ]
 ```
 
 ```django
+<!-- boards/new.html -->
 {% extends 'boards/base.html' %}
 {% block body %}
     <h1>NEW</h1>
@@ -477,14 +468,13 @@ urlpatterns = [
         <label for="content">Content</label>
         <textarea name="content" id="content"></textarea>
         <input type="submit" value="Submit"/>
-    </form
-    <a href="/boards/">BACK</a>
+    </form>
 {% endblock %}
 ```
 
 - create
 
-> **모듈 import 순서**
+> 모듈 import 순서
 >
 > ```python
 > # 1. 파이썬 표준 라이브러리 ex) os, random..
@@ -516,7 +506,7 @@ def create(request):
 
 ```python
 # boards/urls.py
-
+# app_name = 'boards' # 나중에 사용할 예정. 아직 언급 전혀 안해도 될 듯.
 urlpatterns = [
      path('create/', views.create, name='create'),
      path('new/', views.new, name='new'),
@@ -543,10 +533,11 @@ def index(request):
 ```
 
 ```django
+<!-- boards/index.html -->
 {% extends 'boards/base.html' %}
 {% block body %}
     <h1>Board</h1>
-    <a href="/boards/new">글 작성하기</a>
+    <a href="/boards/new/">글 작성하기</a>
     <hr>
     {% for board in boards %}
         <p>{{ board.id }}</p>
@@ -574,7 +565,7 @@ def create(request):
 > ```python
 > def index(request):
 >     # boards = Board.objects.all()[::-1]	# 원래 결과를 바꿔서 파이썬이 변경
->     boards = Board.objects.order_by('-id')  # db 가 처음부터 바꿔서 전달
+>     boards = Board.objects.order_by('-id')  # db 가 바꿔서
 >     return render(request, 'boards/index.html', {'boards': boards})
 > ```
 
@@ -622,7 +613,26 @@ def create(request):
     
     return redirect('/boards/')
     # return redirect(index)
+    # return redirect(reverse(index))
+    # return redirect(resolve_url(index))
+    # return reverse(index) # 안됨
+    # return resolve_url(index) # 안됨
+    
+    # return redirect('boards:index')
 ```
+
+> **TMI** 
+>
+> 1. [Redirect](https://docs.djangoproject.com/ko/2.1/topics/http/shortcuts/#django.shortcuts.redirect)
+>
+> - `redirect(to, permanent=False, *args, **kwargs)`
+>
+> - Return an **HttpResponseRedirect** to the appropriate URL for the arguments passed.
+> - https://milooy.wordpress.com/2016/03/03/pass-data-through-redirect-in-django/
+>
+> 2. URL Reverse
+>
+> - [URL Reverse를 수행하는 4가지 함수](https://wayhome25.github.io/django/2017/05/05/django-url-reverse/)
 
 ---
 
@@ -644,8 +654,8 @@ Username: admin
 
 Email address: admin@gmail.com
 
-Password: (보안상 입력해도 아무것도 출력되지 않음)
-Password (again): 
+Password: **********
+Password (again): *********
 
 Superuser created successfully.
 ```
@@ -668,7 +678,7 @@ admin.site.register(Board)
 #### 6.3 관리 사이트 추가 사항
 
 - 더 편하게 보기 위해서 아래처럼 작성하면 실제 Column 명과 내용을 바로 볼 수 있다.
-- `list_display` 는 약속된 변수명이다.
+- list_display 는 약속된 변수명이다.
 
 ```python
 from django.contrib import admin
@@ -738,6 +748,62 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ---
 
+**17 homework**
+
+1. `migrate`
+2. `max_length`
+3. `python manage.py shell`
+
+4. .
+
+   ```python
+   # 1
+   board = Board(title='내이름', content='내 이메일')
+   board.save()
+   
+   # 2
+   Board.objects.create(title='내이름', content='내 이메일')
+   ```
+
+**17 workshop**
+
+```python
+class Student(models.Model):
+    name = models.CharField(max_length=10)
+    email = models.CharField(max_length=50)
+    birthday = models.DateField()
+    age = models.IntegerField()
+```
+
+```bash
+$ python manage.py makemigrations
+$ python manage.py migrate
+```
+
+```python
+from django.contrib import admin
+from .models import Student
+
+# Register your models here.
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('name','email','birthday','age',)
+
+admin.site.register(Student, StudentAdmin)
+```
+
+```python
+class Student(models.Model):
+    name = models.CharField(max_length=10)
+    email = models.CharField(max_length=50)
+    birthday = models.DateField()
+    age = models.IntegerField()
+    
+    def __str__(self):
+        return self.name
+```
+
+---
+
 ```bash
 PROJECT02
 ├── boards
@@ -768,14 +834,3 @@ PROJECT02
 ├── db.sqlite3
 └── manage.py
 ```
-
-
-
-
-
-
-
-
-
-
-
