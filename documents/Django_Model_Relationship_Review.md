@@ -97,116 +97,111 @@
     c7 = Comment.objects.create(content='!2글2댓글', user=user2, post=post2)
     ```
 
-- 다음의 쿼리를 날려보자.
     1. 1번 사람이 작성한 게시글은?
 
-       ```python
-       #shell
-       user1.post_set 	# 이렇게 찍어보고, 전부를 가져오려면, .all()
-       user1.post_set.all()
-       # type은 무엇일까?
-       # 쿼리셋이다.
-       ```
+    ```python
+    #shell
+    user1.post_set 	# 이렇게 찍어보고, 전부를 가져오려면, .all()
+    user1.post_set.all()
+    # type은 무엇일까?
+    # 쿼리셋이다.
+    ```
 
     2. 1번 사람의 게시글별로 댓글을 출력해보자.
 
-       ```python
-       #shell
-       for post in user1.post_set.all():
-       	for comment in post.comment_set.all():
-       		print(comment.content)
-       ```
+    ```python
+    #shell
+    for post in user1.post_set.all():
+    	for comment in post.comment_set.all():
+    		print(comment.content)
+    ```
 
     3. 2번 댓글을 쓴 사람은?
 
-       ```python
-       # shell
-       c2.user
-       ```
+    ```python
+    # shell
+    c2.user
+    ```
 
     4. 2번 댓글을 쓴 사람의 게시글들은?
 
-       ```python
-       c2.user.post_set.all()
-       ```
+    ```python
+    c2.user.post_set.all()
+    ```
 
     5. 1번 글의 첫번째 댓글의 쓴 사람의 이름은?
 
-       ```python
-       post1.comment_set.first().user.name
-       # or
-       post1.comment_set.all()[0].user.name
-       ```
+    ```python
+    post1.comment_set.first().user.name
+    # or
+    post1.comment_set.all()[0].user.name
+    ```
 
-       > `first` 와 `last` 말고는 인덱스 접근을 해야한다. 
-       >
-       > 그리고 이 것은 실제로 SQL에서 `LIMIT` `OFFSET` 옵션이다.
+    > `first` 와 `last` 말고는 인덱스 접근을 해야한다. 
+    >
+    > 그리고 이 것은 실제로 SQL에서 `LIMIT` `OFFSET` 옵션이다.
 
     6. 1번 글의 2번째부터 4번째까지 댓글을 가져오면? 
+       그리고 이 것은 실제로 SQL에서 `OFFSET` `LIMIT`옵션이다.
+       `LIMIT 3 OFFSET 1` 
 
-        그리고 이 것은 실제로 SQL에서 `OFFSET` `LIMIT`옵션이다.
+    ```python
+    post1.comment_set.all()[1:4]
+    ```
 
-        `LIMIT 3 OFFSET 1` 
-
-        ```python
-        post1.comment_set.all()[1:4]
-        ```
-
-        ```sqlite
-        SELECT "manytomany_comment"."id", "manytomany_comment"."content", "manytomany_comment"."post_id", "manytomany_comm ent"."user_id" 
-        FROM "manytomany_comment" WHERE "manytomany_comment"."post_id" = 1  LIMIT 3 OFFSET 1
-        ```
+    ```sqlite
+    SELECT "manytomany_comment"."id", "manytomany_comment"."content", "manytomany_comment"."post_id", "manytomany_comm ent"."user_id" 
+    FROM "manytomany_comment" WHERE "manytomany_comment"."post_id" = 1  LIMIT 3 OFFSET 1
+    ```
 
     7. 1번 글의 두번째 댓글을 쓴 사람의 첫번째 게시물의 작성자의 이름은?
 
-       ```python
-       post1.comment_set.all()[1].user.post_set.all()[0].user.name
-       ```
-
+    ```python
+    post1.comment_set.all()[1].user.post_set.all()[0].user.name
+    ```
     8. 1번 댓글의 정보 중 user 정보만 가져온다면?
 
-       ```python
-       c = Comment.objects.values('user').get(pk=1)
-       # object가 아니라 딕셔너리로 온다.
-       # 다만 템플릿에서는 어짜피 딕셔너리 값도 . 을 통해 가져오기 때문에 전혀 문제가 없다.
-       ```
+    ```python
+    c = Comment.objects.values('user').get(pk=1)
+    # object가 아니라 딕셔너리로 온다.
+    # 다만 템플릿에서는 어짜피 딕셔너리 값도 . 을 통해 가져오기 때문에 전혀 문제가 없다.
+    ```
 
     9. 2번 사람이 작성한 댓글을 content의 내림차순으로 가져오면?
 
-       ```python
-       user2.comment_set.order_by('-content')
-       ```
+    ```python
+    user2.comment_set.order_by('-content')
+    ```
 
     10. 1글이라는 제목인 게시글은?
 
-      ```python
-      Post.objects.filter(title='1글')
-      ```
+    ```python
+    Post.objects.filter(title='1글')
+    ```
 
     11. 제목에 글이라는 단어가 있는 게시글은?
 
-       ```python
-       Post.objects.filter(title__contains='글')
-       ```
+    ```python
+    Post.objects.filter(title__contains='글')
+    ```
 
     12. 댓글 중에 해당 글의 제목이 1글인 것은?
 
-       ```python
-       Comment.objects.filter(post__title='1글')
-       ```
-
+    ```python
+    Comment.objects.filter(post__title='1글')
+    ```
     13. 댓글 중에 해당 글의 제목에 1이 들어가 있는 것은?
 
-       ```python
-       Comment.objects.filter(post__title__contains='1')
-       ```
+    ```python
+    Comment.objects.filter(post__title__contains='1')
+    ```
 
-       ```sqlite
-       SELECT "manytomany_comment"."id", "manytomany_comment"."content", "manytomany_comment"."post_id", "manytomany_comment"."user_id" 
-       FROM "manytomany_comment" INNER JOIN "manytomany_post" 
-       ON ("manytomany_comment"."post_id" = "manytomany_post"."id") 
-       WHERE "manytomany_post"."title" LIKE %1% ESCAPE '\'
-       ```
+    ```sqlite
+    SELECT "manytomany_comment"."id", "manytomany_comment"."content", "manytomany_comment"."post_id", "manytomany_comment"."user_id" 
+    FROM "manytomany_comment" INNER JOIN "manytomany_post" 
+    ON ("manytomany_comment"."post_id" = "manytomany_post"."id") 
+    WHERE "manytomany_post"."title" LIKE %1% ESCAPE '\'
+    ```
 
 ---
 
