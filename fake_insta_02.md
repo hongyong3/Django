@@ -589,7 +589,7 @@ path('<int:post_pk>/comments/<int:comment_pk>/delete/', views.comment_delete, na
 >
 > [related_name](https://docs.djangoproject.com/ko/2.1/ref/models/fields/#django.db.models.ForeignKey.related_name)
 >
-> user 는 여러 post 에 like 할 수 있고, post 는 여러 user 로부터 like 받을 수 있다.
+> "user 는 여러 post 에 like 할 수 있고, post 는 여러 user 로부터 like 받을 수 있다."
 >
 
 - Like라는 것은 Post와 User 사이의 어떤 관계나 상태에 대해 정의하는 것인데, 만약에 이런 관계를 1:N이라고 가정을 하고 Post 쪽 또는 User 쪽에만 기록을 해놓는다면 특정 Post는 단 한명의 User의 좋아요만 받을 수 있게 된다거나(Post 쪽에 기록, User:Post=1:N), 반대로 특정 User는 단 하나의 Post에만 좋아요를 할 수 있게 된다(User 쪽에 기록, Post:User=1:N)
@@ -728,6 +728,8 @@ path('<int:post_pk>/like/', views.like, name='like'),
 - 인스타 주소 구조와 비슷하게 만들기 위해 `insta/urls.py` 에 주소를 작성해본다.
 
   > 어떤 앱의 view 인지 구분하기 위해 `as` 로 이름을 바꿔준다.
+  >
+  > **이 주소는 반드시 가장 최하단에 작성해야 한다. django 는 url 또한 위에서부터 읽어내려오기 때문**
 
   ```python
   # insta/urls.py
@@ -907,4 +909,3 @@ insta_project
     ├── urls.py
     └── views.py
 ```
-
