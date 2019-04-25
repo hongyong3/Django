@@ -158,7 +158,7 @@ path('login/', views.login, name='login'),
 {% endblock %}
 ```
 
-- 로그인 되었는지 확일할 방법이 없으니 다음과 같이 설정해본다.
+- 로그인 되었는지 확인할 방법이 없으니 다음과 같이 설정해본다.
 
   ```django
   <!-- base.html -->
