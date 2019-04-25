@@ -118,7 +118,7 @@ path('signup/', views.signup, name='signup')
   - 그래서 이 session 은 사용자가 로그인 하면, 로그인한 사용자의 정보를 페이지가 전환되더라도 계속 들고 있는다. (로그아웃 버튼을 누르거나, sesstion 만료시간이 지날 때 까지 들고 있는다.)
 - Session 은 잠시 뒤로 넘기고 우리는 django 가 세션 관리를 알아서 모두 해준다는 것을 알고 가자.
 - User 를 만드는 ModelForm 은 `AuthenticationForm` 을 사용한다.
-  - `auto_login` 은 session 에 user 정보를 기록해서 계속 들고 있도록 한다. 즉, 로그인을 한다.
+  - `auth_login` 은 session 에 user 정보를 기록해서 계속 들고 있도록 한다. 즉, 로그인을 한다.
   - 이름을 변경해서 사용하는 이유는 view 함수인 login 과의 혼동을 방지하기 위해 변경한다.
 
 ```python

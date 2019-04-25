@@ -40,7 +40,7 @@
 $ mkdir insta_project
 $ cd insta_project
 
-$ pyenv virualenv 3.6.7 insta-venv
+$ pyenv virtualenv 3.6.7 insta-venv
 $ pyenv local insta-venv
 
 $ pip install django==2.1.8
